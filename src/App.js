@@ -52,8 +52,9 @@ const App = () => {
   ] = useMutation(createIssue);
 
   const CreateNewIssue = details => {
-    const title = `${appendId && details.ID ? `${details.ID} - ` : ``}${details.Title ? details.Title.trim() : 'NO TITLE'
-      }`;
+    const title = `${appendId && details.ID ? `${details.ID} - ` : ``}${
+      details.Title ? details.Title.trim() : 'NO TITLE'
+    }`;
 
     const description = details.Description
       ? details.Description.trim()
@@ -101,13 +102,11 @@ const App = () => {
     const rowIntervals = setInterval(() => {
       pushRow(currentIndex);
       currentIndex++;
-      if (currentIndex >= body.length)
-        clearInterval(rowIntervals);
-    }, 10)
+      if (currentIndex >= body.length) clearInterval(rowIntervals);
+    }, 10);
 
-    const pushRow = (index) => {
-
-      console.log(index)
+    const pushRow = index => {
+      console.log(index);
 
       const currentRow = combineArrays(header, body[index]);
       const { Title, Description } = currentRow;
@@ -136,7 +135,7 @@ const App = () => {
       //   // CreateNewIssue(currentRow);
       // });
     };
-  }
+  };
   const handleChange = e => {
     setFilePresent(typeof e.target.files[0] !== 'undefined' ? true : false);
     // console.dir(e.target);
