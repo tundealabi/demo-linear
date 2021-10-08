@@ -6,7 +6,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-export const apiKey = process.env.REACT_APP_LINEAR_DUMMY_API_KEY;
+export const apiKey = process.env.REACT_APP_LINEAR_API_KEY;
 const httpLink = createHttpLink({ uri: 'https://api.linear.app/graphql' });
 const authLink = setContext((_, { headers }) => {
   return { headers: { ...headers, authorization: apiKey } };

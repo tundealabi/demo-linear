@@ -52,9 +52,8 @@ const App = () => {
   ] = useMutation(createIssue);
 
   const CreateNewIssue = details => {
-    const title = `${appendId && details.ID ? `${details.ID} - ` : ``}${
-      details.Title ? details.Title.trim() : 'NO TITLE'
-    }`;
+    const title = `${appendId && details.ID ? `${details.ID} - ` : ``}${details.Title ? details.Title.trim() : 'NO TITLE'
+      }`;
 
     const description = details.Description
       ? details.Description.trim()
@@ -88,7 +87,7 @@ const App = () => {
 
     // console.log(mutatedata);
     if (mutateerror) {
-      setDidNotGo([...DidNotGo, details.ID]);
+      // setDidNotGo([...DidNotGo, details.ID]);
       console.error(`${details.ID} : ${mutateerror}`);
     }
   };
@@ -98,10 +97,19 @@ const App = () => {
     const { body, header } = file;
     // console.log(body.length);
 
-    body.forEach((row, index) => {
-      if (index > 100) return;
+    let currentIndex = 0;
+    const rowIntervals = setInterval(() => {
+      pushRow(currentIndex);
+      currentIndex++;
+      if (currentIndex >= body.length)
+        clearInterval(rowIntervals);
+    }, 10)
 
-      const currentRow = combineArrays(header, row);
+    const pushRow = (index) => {
+
+      console.log(index)
+
+      const currentRow = combineArrays(header, body[index]);
       const { Title, Description } = currentRow;
 
       if (!mutateerror) {
@@ -114,22 +122,21 @@ const App = () => {
       } else {
         console.error(mutateerror, `INDEX ${index}`);
       }
-    });
-    console.warn(DidNotGo);
+      console.warn(DidNotGo);
 
-    console.warn(
-      `${wrongNameCount} rows did not have a title or a description`,
-    );
+      console.warn(
+        `${wrongNameCount} rows did not have a title or a description`,
+      );
 
-    // const dummyData = Array(5).fill(combineArrays(header, body[0])).map((u, i) => i);
-    // // console.log(dummyData.length);
-    // dummyData.forEach(row => {
-    //   const currentRow = combineArrays(header, row);
-    //   console.log(currentRow);
-    //   // CreateNewIssue(currentRow);
-    // });
-  };
-
+      // const dummyData = Array(5).fill(combineArrays(header, body[0])).map((u, i) => i);
+      // // console.log(dummyData.length);
+      // dummyData.forEach(row => {
+      //   const currentRow = combineArrays(header, row);
+      //   console.log(currentRow);
+      //   // CreateNewIssue(currentRow);
+      // });
+    };
+  }
   const handleChange = e => {
     setFilePresent(typeof e.target.files[0] !== 'undefined' ? true : false);
     // console.dir(e.target);
