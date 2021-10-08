@@ -37,7 +37,7 @@ export const mapLabel = input =>
     Bug: 'f93382b5-8b60-4e3a-bdc4-763461427890',
     Improvement: '55d59b50-567b-41e4-9b3b-9198e33bbc87',
     Feature: '437046d5-5f45-43d9-a393-785b0a15bf88',
-  }[input.toLowerCase()] || 'c0f0eaf3-192b-468f-8e1f-1f0248266dab');
+  }[input.toLowerCase()] || '55d59b50-567b-41e4-9b3b-9198e33bbc87');
 
 export const labelArrGenerate = (labelArray = '') => {
   const returnArray = labelArray.split(',');
