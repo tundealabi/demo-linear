@@ -6,7 +6,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-export const apiKey = 'lin_api_lXEAjnY1X4TTwTAcEIo4C5uEHgy2PKWXZgxBAI6g';
+export const apiKey = process.env.REACT_APP_LINEAR_DUMMY_API_KEY;
 const httpLink = createHttpLink({ uri: 'https://api.linear.app/graphql' });
 const authLink = setContext((_, { headers }) => {
   return { headers: { ...headers, authorization: apiKey } };
@@ -16,19 +16,67 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// ----------------------------------------
+// QUERY
 export const fetchIssueDetails = gql`
-  query Query($issueId: String!) {
+  query FindIssueDetails($issueId: String!) {
     issue(id: $issueId) {
       id
       title
       priority
-      estimate
+      labels {
+        nodes {
+          id
+          name
+        }
+      }
+      creator {
+        name
+      }
+      completedAt
+      project {
+        id
+        name
+      }
     }
   }
 `;
 
+export const fetchProjectDetails = gql`
+  query FindProjectDetails {
+    projects {
+      nodes {
+        id
+        name
+        members {
+          nodes {
+            email
+            name
+          }
+        }
+        creator {
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const fetchLabels = gql`
+  query FindIssueLabels {
+    issueLabels {
+      nodes {
+        name
+        id
+      }
+    }
+  }
+`;
+
+// ----------------------------------------
+// MUTATIONS
 export const createIssue = gql`
-  mutation EstimateMutation($issueCreateInput: IssueCreateInput!) {
+  mutation CreateIssue($issueCreateInput: IssueCreateInput!) {
     issueCreate(input: $issueCreateInput) {
       issue {
         title
@@ -38,6 +86,21 @@ export const createIssue = gql`
         team {
           id
         }
+        labels {
+          nodes {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const updateLabel = gql`
+  mutation IssueLabelMutation($issueLabelCreateInput: IssueLabelCreateInput!) {
+    issueLabelCreate(input: $issueLabelCreateInput) {
+      issueLabel {
+        name
       }
     }
   }
