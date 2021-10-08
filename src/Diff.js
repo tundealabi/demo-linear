@@ -19,9 +19,9 @@ const Diff = () => {
     const NewObject = body.map(item => {
       const modifiedItem = combineArrays(header, item);
 
-      modifiedItem.Title = `${modifiedItem.ID} - ${
-        modifiedItem.Title ? modifiedItem.Title.trim() : 'NO TITLE'
-      }`;
+      // modifiedItem.Title = `${modifiedItem.ID} - ${
+      //   modifiedItem.Title ? modifiedItem.Title.trim() : 'NO TITLE'
+      // }`;
 
       return modifiedItem;
     });
@@ -46,10 +46,9 @@ const Diff = () => {
     const NewObject = body.map(item => {
       const modifiedItem = combineArrays(header, item);
 
-      //   modifiedItem.Title = `${item.ID} - ${
-      //     item.Title ? item.Title.trim() : 'NO TITLE'
-      //   }`;
-      //   console.log(modifiedItem);
+      modifiedItem.Title = `${modifiedItem.ID} - ${
+        modifiedItem.Title ? modifiedItem.Title.trim() : 'NO TITLE'
+      }`;
 
       return modifiedItem;
     });
@@ -71,7 +70,6 @@ const Diff = () => {
     // sourceFileDetails diffFileDetails
     const comparer = otherArray => {
       return current => {
-        console.log(otherArray.length);
         return (
           otherArray.filter(function (other) {
             return other.Title === current.Title;
@@ -83,9 +81,20 @@ const Diff = () => {
     var onlyInA = sourceFileDetails.filter(comparer(diffFileDetails));
     var onlyInB = diffFileDetails.filter(comparer(sourceFileDetails));
 
-    const difference1 = onlyInB.concat(onlyInA);
-    const difference2 = onlyInA.concat(onlyInB);
-    console.log(difference1, difference2);
+    const difference = onlyInB.filter(
+      n => !onlyInA.map(b => b.Title).includes(n.Title),
+    );
+
+    const removeIDRegex = /^(ZC-\d{5}.*-.)/gim;
+    const formattedDifference = difference.map(item => {
+      item.Title = item.Title.replace(removeIDRegex, '');
+      return item;
+    });
+
+    // TODO
+    // please refactor me !!!!
+
+    console.log(formattedDifference);
   };
 
   return (
