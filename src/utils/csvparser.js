@@ -14,7 +14,7 @@ const csvToArray = function ({ strData, strDelimiter, header = true }) {
       '([^"\\' +
       strDelimiter +
       '\\r\\n]*))',
-    'gi'
+    'gi',
   );
   // Create an array to hold our data. Give the array
   // a default empty first row.
@@ -58,8 +58,8 @@ const csvToArray = function ({ strData, strDelimiter, header = true }) {
 
 const arrayToCsv = function (array, header = null) {
   return [
-    this.parsedCsv.header.map((item) => `"${item}"`).join(','),
-    ...array.map((line) => line.map((item) => `"${item}"`).join(',')),
+    this.parsedCsv.header.map(item => `"${item}"`).join(','),
+    ...array.map(line => line.map(item => `"${item}"`).join(',')),
   ].join('\n');
 };
 
