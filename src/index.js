@@ -10,7 +10,7 @@ import { client } from './utils/api';
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <Diff />
+      <App />
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root'),
