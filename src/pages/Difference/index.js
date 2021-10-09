@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { parseCsv } from './utils/csvparser';
-import { combineArrays } from './utils/helpers';
+import { parseCsv } from '../../utils/csvparser';
+import { combineArrays } from '../../utils/helpers';
 
 const Diff = () => {
   const [sourceFile, setsourceFile] = useState(null);
