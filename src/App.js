@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 
@@ -8,18 +8,28 @@ import { client } from './utils/api';
 // pages
 import MassImport from './pages/Massimport';
 import Difference from './pages/Difference';
+import SetKey from './pages/SetKey';
+import { Container } from 'react-bootstrap';
 
 const App = () => {
+  const [apiKey, setapiKey] = useState('');
+
   return (
     <>
-      <ApolloProvider client={client}>
-        <Router>
-          <Switch>
-            <Route path="/importAll" exact component={MassImport} />
-            <Route path="/diff" exact component={Difference} />
-          </Switch>
-        </Router>
-      </ApolloProvider>
+      <Router>
+        <Container fluid className="m-auto">
+          {true ? (
+            <SetKey setapiKey={apiKey} />
+          ) : (
+            <ApolloProvider client={client}>
+              <Switch>
+                <Route path="/importAll" exact component={MassImport} />
+                <Route path="/diff" exact component={Difference} />
+              </Switch>
+            </ApolloProvider>
+          )}
+        </Container>
+      </Router>
     </>
   );
 };
